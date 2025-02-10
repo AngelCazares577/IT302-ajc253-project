@@ -1,0 +1,2 @@
+This is a test for the new project file, seperate from the claswork file. I will be copying and reconfiguring this weeks
+backend folder to fit the project just as a test. will be commiting this soon
