@@ -12,7 +12,7 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
-app.use("/api/v1/intelligence", intelligence)
+app.use("/api/v1/ajc253/intelligence", intelligence)
 
 //if the above path unavailable, a default not found endpoint will appear
 
