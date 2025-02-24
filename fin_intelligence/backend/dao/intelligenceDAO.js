@@ -5,7 +5,7 @@ export default class intelligenceDAO {
     if(intelligence){ 
       return
     } try {
-      intelligence = await conn.db(process.env.INTELLIIGENCEREVIEWS_NS).collection('AlphaIntelligence_ajc253')
+      intelligence = await conn.db(process.env.SENTIMENTS_NS).collection('AlphaIntelligence_ajc253')
     } catch(e) {
       console.error(`unable to connect in intelligenceDAO: ${e}`)
     }
@@ -20,8 +20,6 @@ export default class intelligenceDAO {
     if(filters) {
       if("title" in filters) {
         query = { $text: { $search: filters['title']}}
-      } else if("rated" in filters) {
-        query = { "rated": { $eq: filters['rated']}}
     }
  }
 

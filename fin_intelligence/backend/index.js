@@ -8,7 +8,7 @@ async function main() {
 
   dotenv.config()
 
-  const client = new mongodb.MongoClient( process.env.INTELLIIGENCEREVIEWS_DB_URI)
+  const client = new mongodb.MongoClient( process.env.SENTIMENTS_DB_URI)
 
   const port = process.env.PORT || 8000
 
