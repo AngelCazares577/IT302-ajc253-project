@@ -1,3 +1,9 @@
+//Angel Cazares
+//ajc253@njit.edu
+//IT302-452
+//     2/23/25
+
+
 let intelligence
 
 export default class intelligenceDAO {

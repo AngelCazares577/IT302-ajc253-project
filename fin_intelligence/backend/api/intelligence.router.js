@@ -1,3 +1,10 @@
+//Angel Cazares
+//ajc253@njit.edu
+//IT302-452
+//     2/23/25
+
+
+
 import express from 'express'
 import intelligenceController from './intelligence.js'
 
