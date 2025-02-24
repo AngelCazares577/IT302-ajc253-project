@@ -1,9 +1,9 @@
-import MoviesDAO from '../dao/intelligenceDAO.js'
+import intelligenceDAO from '../dao/intelligenceDAO.js'
 
-export default class MoviesController {
+export default class intelligenceController {
     
-  static async apiGetMovies(req,res,next) {
-    const moviesPerPage = req.query.moviesPerPage ? parseInt(req.query.moviesPerPage) : 20
+  static async apiGetintelligence(req,res,next) {
+    const intelligencePerPage = req.query.intelligencePerPage ? parseInt(req.query.intelligencePerPage) : 20
     const page = req.query.page ?   parseInt(req.query.page) : 0
     let filters = {}
     if(req.query.rated){
@@ -12,15 +12,15 @@ export default class MoviesController {
       filters.title = req.query.title
     }
 
-    const { moviesList, totalNumMovies } = await MoviesDAO.getMovies({
-        filters, page, moviesPerPage})
+    const { intelligenceList, totalNumintelligence } = await intelligenceDAO.getintelligence({
+        filters, page, intelligencePerPage})
     
         let response = {
-          movies: moviesList,
+          intelligence: intelligenceList,
           page: page,
           filters: filters,
-          entries_per_page: moviesPerPage,
-          total_results: totalNumMovies,
+          entries_per_page: intelligencePerPage,
+          total_results: totalNumintelligence,
         }
         res.json(response)
        }

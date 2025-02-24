@@ -1,10 +1,10 @@
 import express from 'express'
-import MoviesController from './intelligence.js'
+import intelligenceController from './intelligence.js'
 
 
 const router = express.Router()
 
-router.route('/').get(MoviesController.apiGetMovies)
+router.route('/').get(intelligenceController.apiGetintelligence)
 
 export default router
 

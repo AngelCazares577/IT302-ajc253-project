@@ -1,20 +1,20 @@
-let movies
+let intelligence
 
-export default class MoviesDAO {
+export default class intelligenceDAO {
   static async injectDB(conn) {
-    if(movies){ 
+    if(intelligence){ 
       return
     } try {
-      movies = await conn.db(process.env.MOVIEREVIEWS_NS).collection('AlphaIntelligence_ajc253')
+      intelligence = await conn.db(process.env.INTELLIIGENCEREVIEWS_NS).collection('AlphaIntelligence_ajc253')
     } catch(e) {
-      console.error(`unable to connect in MoviesDAO: ${e}`)
+      console.error(`unable to connect in intelligenceDAO: ${e}`)
     }
   }
 
-  static async getMovies({
+  static async getintelligence({
     filters = null,
     page = 0,
-    moviesPerPage = 20,
+    intelligencePerPage = 20,
   } = {}) {
     let query
     if(filters) {
@@ -27,17 +27,17 @@ export default class MoviesDAO {
 
  let cursor
  try {
-   cursor = await movies
+   cursor = await intelligence
      .find(query)
-     .limit(moviesPerPage)
-     .skip(moviesPerPage * page)
-   const moviesList = await cursor.toArray()
-   const totalNumMovies = await movies.countDocuments(query)
-   return {moviesList, totalNumMovies}
+     .limit(intelligencePerPage)
+     .skip(intelligencePerPage * page)
+   const intelligenceList = await cursor.toArray()
+   const totalNumintelligence = await intelligence.countDocuments(query)
+   return {intelligenceList, totalNumintelligence}
  } catch(e) {
    console.error(`Unable to issue find command, ${e}`)
    console.error(e)
-   return { moviesList: [], totalNumMovies: 0 }
+   return { intelligenceList: [], totalNumintelligence: 0 }
  }
 }
 }
