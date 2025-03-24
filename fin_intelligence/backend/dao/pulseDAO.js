@@ -1,15 +1,15 @@
-
 //Angel Cazares
 //ajc253@njit.edu
 //IT302-452
 //     2/23/25
-
 
 import mongodb from "mongodb"
 const ObjectId = mongodb.ObjectId
 
 let pulses
 export default class pulseDAO {
+
+  // Establishes a connection to the 'pulses' collection, if not already connected
   static async injectDB(conn) {
     if(pulses) {
       return
@@ -20,6 +20,7 @@ export default class pulseDAO {
     }
   }
 
+  // Inserts a new pulse document into the database
   static async addpulse(articleId, user, pulse, lastModified) {
     try {
       const pulseDoc = {
@@ -37,6 +38,7 @@ export default class pulseDAO {
     }
   }
 
+  // Updates an existing pulse by its ID and user ID
   static async updatepulse(pulseId, userId, pulse, lastModified) {
     try {
       const updateResponse = await pulses.updateOne(
@@ -51,6 +53,7 @@ export default class pulseDAO {
     }
   }  
 
+  // Deletes a pulse document, ensuring the user is authorized
   static async deletepulse(pulseId, userId) {
     try {
       const deleteResponse = await pulses.deleteOne({

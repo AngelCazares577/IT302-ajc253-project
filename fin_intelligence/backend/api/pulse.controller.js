@@ -7,7 +7,8 @@ import pulseDAO from '../dao/pulseDAO.js'
 
 export default class pulseController {
 
-  static async apiPostpulse(req,res,next) {
+  // Handles POST requests to create a new pulse (comment or reaction) for an article
+  static async apiPostpulse(req, res, next) {
     try {
       const articleId = req.body.article_id
       const pulse = req.body.pulse
@@ -24,13 +25,14 @@ export default class pulseController {
         pulse,
         lastModified
       )
-    res.json(pulseResponse)
+      res.json(pulseResponse)
     } catch(e) {
-    res.status(500).json({ error: e.message })
+      res.status(500).json({ error: e.message })
     }
   }
 
-  static async apiUpdatepulse(req,res,next) {
+  // Handles PUT requests to update an existing pulse, with validation of author identity
+  static async apiUpdatepulse(req, res, next) {
     try {
       const pulseId = req.body.pulse_id
       const pulse = req.body.pulse
@@ -41,22 +43,24 @@ export default class pulseController {
         pulse,
         lastModified
       )
-  
+
       var { error } = pulseResponse
       if(error) {
-        res.status.json({error})
+        res.status.json({ error })
       }
+
+      // Check if update was successful, otherwise throw an error
       if(pulseResponse.modifiedCount === 0) {
-        throw new Error ("unable to update pulse. User may not be original poster")
+        throw new Error("unable to update pulse. User may not be original poster")
       }
       res.json(pulseResponse)
     } catch(e) {
-      res.status(500).json({ error: e.message})
+      res.status(500).json({ error: e.message })
     }
   }
-  
 
-  static async apiDeletepulse(req,res,next) {
+  // Handles DELETE requests to remove a pulse, requires correct user ID
+  static async apiDeletepulse(req, res, next) {
     try {
       const pulseId = req.body.pulse_id
       const userId = req.body.user_id
@@ -66,10 +70,8 @@ export default class pulseController {
       )
       res.json(pulseResponse)
     } catch(e) {
-      res.status(500).json({ error: e.message})
+      res.status(500).json({ error: e.message })
     }
   }
-    
+
 }
-
-
