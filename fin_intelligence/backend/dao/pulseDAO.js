@@ -1,4 +1,8 @@
 
+//Angel Cazares
+//ajc253@njit.edu
+//IT302-452
+//     2/23/25
 
 
 import mongodb from "mongodb"
@@ -16,14 +20,14 @@ export default class pulseDAO {
     }
   }
 
-  static async addpulse(movieId, user, pulse, lastModified) {
+  static async addpulse(articleId, user, pulse, lastModified) {
     try {
       const pulseDoc = {
         name: user.user_name,
         user_id: user._id,
         lastModified: lastModified,
         pulse: pulse,
-        movie_id: new ObjectId(movieId)
+        article_id: new ObjectId(articleId)
       }
       return await pulses.insertOne(pulseDoc)
     } catch(e) {

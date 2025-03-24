@@ -1,0 +1,56 @@
+[{
+  "_id": {
+    "$oid": "67e1a55a0f9b832bec9fc467"
+  },
+  "name": "Goose Beakerman",
+  "user_id": "111222",
+  "lastModified": {
+    "$date": "2025-03-24T18:32:58.082Z"
+  },
+  "pulse": "This article is goose approved",
+  "article_id": {
+    "$oid": "67aa2274271f391c250d8b52"
+  }
+},
+{
+  "_id": {
+    "$oid": "67e1a5e50f9b832bec9fc468"
+  },
+  "name": "NotApartofMusicInc",
+  "user_id": "999999",
+  "lastModified": {
+    "$date": "2025-03-24T18:35:17.082Z"
+  },
+  "pulse": "Music Licensing Inc should have recieved federal recognition ages ago ",
+  "article_id": {
+    "$oid": "67aa2216271f391c250d8b4c"
+  }
+},
+{
+  "_id": {
+    "$oid": "67e1a62e0f9b832bec9fc469"
+  },
+  "name": "NotTunesLicensingInc",
+  "user_id": "101010",
+  "lastModified": {
+    "$date": "2025-03-24T18:36:30.127Z"
+  },
+  "pulse": "Ughhh whyyyy when Tunes Licensing Inc has been way better for ages",
+  "article_id": {
+    "$oid": "67aa2216271f391c250d8b4c"
+  }
+},
+{
+  "_id": {
+    "$oid": "67e1a65c0f9b832bec9fc46a"
+  },
+  "name": "Brad Pitt",
+  "user_id": "121212",
+  "lastModified": {
+    "$date": "2025-03-24T18:37:16.262Z"
+  },
+  "pulse": "Who cares",
+  "article_id": {
+    "$oid": "67aa2216271f391c250d8b4c"
+  }
+}]

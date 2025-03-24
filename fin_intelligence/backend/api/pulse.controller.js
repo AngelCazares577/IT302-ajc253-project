@@ -9,7 +9,7 @@ export default class pulseController {
 
   static async apiPostpulse(req,res,next) {
     try {
-      const movieId = req.body.movie_id
+      const articleId = req.body.article_id
       const pulse = req.body.pulse
       const userInfo = {
         user_name: req.body.user_name,
@@ -19,7 +19,7 @@ export default class pulseController {
       const lastModified = new Date()
 
       const pulseResponse = await pulseDAO.addpulse(
-        movieId,
+        articleId,
         userInfo,
         pulse,
         lastModified
