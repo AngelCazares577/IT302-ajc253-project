@@ -30,7 +30,7 @@ function App() {
         style={{ borderBottom: '1px solid #e5e5e5' }}
       >
         <Container fluid className="px-4">
-          <Navbar.Brand as={Link} to="/" className="fw-bold">
+          <Navbar.Brand as={Link} to="/ajc253_intelligences" className="fw-bold">
             Alpha Intelligence
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="main-navbar" />
