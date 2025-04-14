@@ -1,7 +1,7 @@
 //Angel Cazares
 //ajc253@njit.edu
 //IT302-452
-//     2/23/25
+//     4/14/25
 
 
 
@@ -13,6 +13,8 @@ import pulseController from './pulse.controller.js'//addded pulsecontroller to t
 const router = express.Router()
 
 router.route('/').get(intelligenceController.apiGetintelligence)
+//new route for id 
+router.get('/:id', intelligenceController.apiGetintelligenceByID)
 
 //the following are CUD for pulses 
 router.route('/').post(pulseController.apiPostpulse)
