@@ -1,35 +1,23 @@
 //Angel Cazares
 //ajc253@njit.edu
 //IT302-452
-//     4/14/25
+// 4/28/25
 
+import express                 from 'express';
+import intelligenceController  from './intelligence.js';
+import pulseController         from './pulse.controller.js';
 
+const router = express.Router();
 
-import express from 'express'
-import intelligenceController from './intelligence.js'
-import pulseController from './pulse.controller.js'//addded pulsecontroller to the router
+router.get('/', intelligenceController.apiGetintelligence);
 
+//pulses CUD
+router.get   ('/pulse', pulseController.apiGetPulses);
+router.post  ('/',      pulseController.apiPostpulse);
+router.put   ('/',      pulseController.apiUpdatepulse);
+router.delete('/',      pulseController.apiDeletepulse);
 
-const router = express.Router()
+//route for get record by ID
+router.get('/:id', intelligenceController.apiGetintelligenceByID);
 
-router.route('/').get(intelligenceController.apiGetintelligence)
-//new route for id 
-router.get('/:id', intelligenceController.apiGetintelligenceByID)
-
-//the following are CUD for pulses 
-router.route('/').post(pulseController.apiPostpulse)
-router.route('/').delete(pulseController.apiDeletepulse)
-router.route('/').put(pulseController.apiUpdatepulse)
-
-export default router
-
-
-
-
-
-
-
-
-
-
-
+export default router;

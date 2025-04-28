@@ -1,82 +1,137 @@
 //Angel Cazares
 //ajc253@njit.edu
 //IT302-452
-//     4/14/25
+// 4/28/25
 
-import React, { useState, useEffect, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import {
+  Container,
+  Card,
+  Spinner,
+  Button,
+  Row,
+  Col,
+  Alert,
+} from 'react-bootstrap';
 import IntelligenceDataService from '../services/IntelligenceDataService';
-import Card from 'react-bootstrap/Card';
-import Container from 'react-bootstrap/Container';
-import Spinner from 'react-bootstrap/Spinner';
 
-function Intelligence({ user }) {
-  const { id } = useParams();
-  const [intelligence, setIntelligence] = useState(null);
+export default function Intelligence({ user }) {
+  const { id: articleId } = useParams();
+  const navigate          = useNavigate();
 
-  // Wrap the fetchIntelligence function with useCallback so it only changes when 'id' changes.
-  const fetchIntelligence = useCallback(() => {
-    IntelligenceDataService.get(id)
-      .then((response) => {
-        setIntelligence(response.data.intelligence);
-        //console.log("seeking error")
-        //console.log(response.data)
-      })
-      .catch((error) => {
-        console.error('Error fetching intelligence data:', error);
-      });
-  }, [id]);
+  const [article, setArticle] = useState(null);
+  const [pulses, setPulses]   = useState([]);
+  const [loadingArticle, setLoadArt] = useState(true);
+  const [loadingPulses,  setLoadPul] = useState(true);
 
   useEffect(() => {
-    fetchIntelligence();
-  }, [fetchIntelligence]);
+    setLoadArt(true);
+    IntelligenceDataService.get(articleId)
+      .then(res => setArticle(res.data.intelligence))
+      .finally(() => setLoadArt(false));
+  }, [articleId]);
 
-  if (!intelligence) {
+  useEffect(() => {
+    setLoadPul(true);
+    IntelligenceDataService.getPulses(articleId)
+      .then(res => setPulses(res.data))
+      .finally(() => setLoadPul(false));
+  }, [articleId]);
+
+  // Deletes a pulse if user matches
+  const handleDelete = pulseId => {
+    IntelligenceDataService
+      .deletePulse(pulseId, user._id)
+      .then(() => setPulses(prev => prev.filter(p => p._id !== pulseId)))
+      .catch(console.error);
+  };
+
+  if (loadingArticle)
     return (
-      <Container className="d-flex justify-content-center align-items-center vh-100">
-        <Spinner animation="border" variant="primary" />
+      <Container className="mt-4 text-center">
+        <Spinner animation="border" />
       </Container>
     );
-  }
+
+  if (!article)
+    return (
+      <Container className="mt-4">
+        <Alert variant="danger">Article not found.</Alert>
+      </Container>
+    );
 
   return (
-    // Returns styled layout with intelligence 
-    <Container className="d-flex justify-content-center align-items-center py-5">
-      <Card 
-        style={{ 
-          maxWidth: '700px', 
-          width: '100%', 
-          borderRadius: '1rem', 
-          boxShadow: '0 8px 20px rgba(0,0,0,0.1)' 
-        }}
-        className="overflow-hidden"
-      >
-        <Card.Img 
-          variant="top" 
-          src={intelligence.banner_image} 
-          alt="description" 
-          style={{ 
-            height: '300px', 
-            objectFit: 'cover' 
-          }}
-        />
-        <Card.Body className="px-4 py-4">
-          <Card.Title className="mb-3" style={{ fontSize: '1.75rem' }}>
-            {intelligence.title}
-          </Card.Title>
-          <Card.Text style={{ fontSize: '1.05rem', color: '#444' }}>
-            {intelligence.summary}
-          </Card.Text>
+    // Returns styled layout with article and pulses
+    <Container className="py-4">
 
+      <Card className="mb-4 shadow-sm">
+        <Card.Img
+          variant="top"
+          src={article.banner_image}
+          alt="banner"
+          style={{ height: 300, objectFit: 'cover' }}
+        />
+        <Card.Body>
+          <Card.Title>{article.title}</Card.Title>
+          <Card.Text>{article.summary}</Card.Text>
           {user && (
-            <Card.Text className="text-muted mt-4 mb-0" style={{ fontSize: '0.95rem' }}>
-              Logged in as: {user.name}
+            <Card.Text className="text-muted">
+              Logged in as {user.name}
             </Card.Text>
           )}
         </Card.Body>
       </Card>
+      <h4 className="mb-3">Pulses</h4>
+
+      {loadingPulses ? (
+        <Spinner animation="border" />
+      ) : pulses.length ? (
+        pulses.map(p => (
+          <Card key={p._id} className="mb-3">
+            <Card.Body>
+              <Row className="align-items-start">
+                <Col>
+                  <strong>{p.user_name || p.name}</strong>
+                  <Card.Text className="mb-2">{p.pulse}</Card.Text>
+                  <small className="text-muted">
+                    {new Date(p.lastModified).toLocaleString()}
+                  </small>
+                </Col>
+
+                {user && user._id === p.user_id && (
+                  <Col xs="auto" className="d-flex align-items-start gap-2">
+                    <Link
+                      to={`/ajc253_intelligences/${articleId}/pulse/${p._id}`}
+                      state={{ pulseText: p.pulse }}
+                      className="btn btn-outline-secondary btn-sm"
+                    >
+                      Edit
+                    </Link>
+                    <Button
+                      size="sm"
+                      variant="outline-danger"
+                      onClick={() => handleDelete(p._id)}
+                    >
+                      Delete
+                    </Button>
+                  </Col>
+                )}
+              </Row>
+            </Card.Body>
+          </Card>
+        ))
+      ) : (
+        <p>No pulses yet.</p>
+      )}
+
+      {user && (
+        <Button
+          onClick={() => navigate(`/ajc253_intelligences/${articleId}/pulse`)}
+        >
+          Add Pulse
+        </Button>
+      )}
     </Container>
   );
 }
-
-export default Intelligence;

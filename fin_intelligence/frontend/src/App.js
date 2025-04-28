@@ -1,67 +1,79 @@
-// Angel Cazares
-// ajc253@njit.edu
-// IT302-452
-// 4/14/25
+//Angel Cazares
+//ajc253@njit.edu
+//IT302-452
+// 4/28/25
 
 import React, { useState } from 'react';
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route, Link, useNavigate } from 'react-router-dom';
+import { Navbar, Nav, Container, Button } from 'react-bootstrap';
+
 import IntelligenceList from './components/IntelligenceList';
 import Intelligence from './components/Intelligence';
-import { Navbar, Nav, Container, Button } from 'react-bootstrap';
+import Login from './components/Login';
+import AddPulse from './components/AddPulse';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-function App() {
+export default function App() {
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
+  // toggle login / logout
   const handleLoginLogout = () => {
     if (user) {
       setUser(null);
     } else {
-      setUser({ name: 'User' });
+      navigate('/ajc253_login');
     }
   };
 
   return (
     <>
-      <Navbar
-        bg="white"
-        expand="lg"
-        className="shadow-sm w-100"
-        style={{ borderBottom: '1px solid #e5e5e5' }}
-      >
+      {/* top bar */}
+      <Navbar bg="dark" variant="dark" expand="lg">
         <Container fluid className="px-4">
-          <Navbar.Brand as={Link} to="/ajc253_intelligences" className="fw-bold">
+          <Navbar.Brand as={Link} to="/">
             Alpha Intelligence
           </Navbar.Brand>
-          <Navbar.Toggle aria-controls="main-navbar" />
-          <Navbar.Collapse id="main-navbar">
+          <Navbar.Toggle />
+          <Navbar.Collapse>
             <Nav className="me-auto">
-              <Nav.Link as={Link} to="/">Home</Nav.Link>
+              <Nav.Link as={Link} to="/ajc253_intelligences">
+                Home
+              </Nav.Link>
             </Nav>
-            <Nav className="ms-auto align-items-center">
-              {user && (
-                <Navbar.Text className="me-3 text-muted">
-                  Welcome, {user.name}
-                </Navbar.Text>
-              )}
-              <Button
-                variant={user ? 'outline-danger' : 'primary'}
-                onClick={handleLoginLogout}
-              >
-                {user ? 'Logout' : 'Login'}
-              </Button>
-            </Nav>
+
+            {user && (
+              <Navbar.Text className="me-3">Welcome, {user.name}</Navbar.Text>
+            )}
+            <Button
+              variant={user ? 'outline-danger' : 'primary'}
+              onClick={handleLoginLogout}
+            >
+              {user ? 'Logout' : 'Login'}
+            </Button>
           </Navbar.Collapse>
         </Container>
       </Navbar>
-
       <Routes>
         <Route path="/" element={<IntelligenceList />} />
         <Route path="/ajc253_intelligences" element={<IntelligenceList />} />
-        <Route path="/ajc253_intelligences/:id" element={<Intelligence user={user} />} />
+        <Route
+          path="/ajc253_intelligences/:id"
+          element={<Intelligence user={user} />}
+        />
+        <Route
+          path="/ajc253_intelligences/:id/pulse"
+          element={<AddPulse user={user} />}
+        />
+        <Route
+          path="/ajc253_intelligences/:id/pulse/:pulseId"
+          element={<AddPulse user={user} editing />}
+        />
+
+        {/* login */}
+        <Route path="/ajc253_login" element={<Login login={setUser} />} />
       </Routes>
     </>
   );
 }
-
-export default App;

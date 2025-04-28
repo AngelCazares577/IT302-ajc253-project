@@ -1,7 +1,7 @@
 //Angel Cazares
 //ajc253@njit.edu
 //IT302-452
-// 2/23/25
+// 4/28/25
 
 import pulseDAO from '../dao/pulseDAO.js'
 
@@ -73,5 +73,19 @@ export default class pulseController {
       res.status(500).json({ error: e.message })
     }
   }
+
+    // GET /pulse?article_id=...
+    static async apiGetPulses(req, res, next) {
+      try {
+        console.log('[apiGetPulses] articleId =', req.query.article_id);
+        console.log('hayyy');
+        const articleId = req.query.article_id;
+        const pulses    = await pulseDAO.getPulsesByArticle(articleId);
+        res.json(pulses);
+      } catch (e) {
+        res.status(500).json({ error: e.message });
+      }
+    }
+  
 
 }
